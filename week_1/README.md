@@ -36,8 +36,6 @@ The primary objective is to minimize financial losses from loan defaults while m
     ![Income Distribution](../output/dist_AMT_INCOME_TOTAL.png)
     ![Income Boxplot](../output/boxplot_AMT_INCOME_TOTAL.png)
     -   **Days Employed**: There are anomalous values (e.g., 365243) which likely represent a placeholder for "unemployed" or "pensioner". This needs to be cleaned.
--   **Class Imbalance**:
-    -   The dataset is highly imbalanced with **~91.9% Non-Defaults** and **~8.1% Defaults**. This will require handling techniques like SMOTE or adjusting class weights during modeling.
 
 ## 3. Initial Exploratory Insights
 
