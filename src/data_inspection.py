@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-DATA_DIR = 'data'
+DATA_DIR = 'data/raw_dataset'
 APP_DATA_PATH = os.path.join(DATA_DIR, 'application_data.csv')
 PREV_APP_PATH = os.path.join(DATA_DIR, 'previous_application.csv')
 COL_DESC_PATH = os.path.join(DATA_DIR, 'columns_description.xlsx')

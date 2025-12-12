@@ -6,8 +6,9 @@ import os
 # Set plot style
 sns.set_theme(style="whitegrid")
 
-DATA_DIR = 'data'
-OUTPUT_DIR = 'output'
+DATA_DIR = 'data/raw_dataset'
+OUTPUT_DIR = 'chart/EDA'
+
 APP_DATA_PATH = os.path.join(DATA_DIR, 'application_data.csv')
 
 if not os.path.exists(OUTPUT_DIR):

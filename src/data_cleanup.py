@@ -3,8 +3,8 @@ import os
 import numpy as np
 
 # Configuration
-DATA_DIR = './data'
-OUTPUT_DIR = './data/processed/cleaned'
+DATA_DIR = './data/raw_dataset'
+OUTPUT_DIR = './data/processed/initially_cleaned_dataset'
 FILES = ['application_data.csv', 'previous_application.csv']
 
 def clean_application_data(df):
