@@ -10,7 +10,7 @@ The analysis is conducted using three datasets:
 
 The final outcomes include structured EDA, feature engineering, insights, and a foundation for an interactive dashboard.
 
----
+
 
 # **Data Exploration, Cleaning & Initial Insights**
 
@@ -31,7 +31,7 @@ The primary objective is to minimize financial losses from loan defaults while m
     - *Shape*: (307,511 rows, 122 columns)
     - *Target Variable*: `TARGET` (1 = Default, 0 = Repaid)
    
-    ![Target Distribution](./output/target_distribution.png)
+    ![Target Distribution](../output/target_distribution.png)
 - **Previous Application Data**: History of previous loans for the same clients.
     - *Shape*: (1,670,214 rows, 37 columns)
 - **Column Descriptions**: Metadata explaining the features.
@@ -41,12 +41,12 @@ The primary objective is to minimize financial losses from loan defaults while m
     - Significant missing data in several columns. Top missing columns include housing-related information (e.g., `COMMONAREA_AVG`, `NONLIVINGAPARTMENTS_AVG`) and external source scores.
     - *Action*: We will need to decide on imputation strategies (median, mode, or creating a "missing" category) or drop columns with excessive missingness (>50%) if they lack predictive power.
    
-    ![Missing Values](./output/missing_values.png)
+    ![Missing Values](../output/missing_values.png)
 - **Outliers**:
     - **Income**: `AMT_INCOME_TOTAL` shows extreme outliers (e.g., max value is likely an error or a very high-net-worth individual). These will need capping or log-transformation.
    
-    ![Income Distribution](./output/dist_AMT_INCOME_TOTAL.png)
-    ![Income Boxplot](./output/boxplot_AMT_INCOME_TOTAL.png)
+    ![Income Distribution](../output/dist_AMT_INCOME_TOTAL.png)
+    ![Income Boxplot](../output/boxplot_AMT_INCOME_TOTAL.png)
     - **Days Employed**: There are anomalous values (e.g., 365243) which likely represent a placeholder for "unemployed" or "pensioner". This needs to be cleaned.
 
 ## **3. Initial Exploratory Insights**
@@ -56,32 +56,32 @@ The primary objective is to minimize financial losses from loan defaults while m
     - *Cash Loans*: Make up the majority of applications.
     - *Revolving Loans*: Have a lower volume but potentially different risk profile.
    
-    ![Contract Type Count](./output/count_NAME_CONTRACT_TYPE.png)
-    ![Contract Type Default Rate](./output/default_rate_NAME_CONTRACT_TYPE.png)
+    ![Contract Type Count](../output/count_NAME_CONTRACT_TYPE.png)
+    ![Contract Type Default Rate](../output/default_rate_NAME_CONTRACT_TYPE.png)
 - **Gender**:
     - Females tend to apply more frequently than males.
     - *Insight*: Initial checks suggest males might have a slightly higher default rate (to be confirmed with statistical tests).
    
-    ![Gender Count](./output/count_CODE_GENDER.png)
-    ![Gender Default Rate](./output/default_rate_CODE_GENDER.png)
+    ![Gender Count](../output/count_CODE_GENDER.png)
+    ![Gender Default Rate](../output/default_rate_CODE_GENDER.png)
 - **Education**:
     - Applicants with "Secondary / secondary special" education are the most common.
     - *Insight*: Higher education levels generally correlate with lower default rates.
    
-    ![Education Count](./output/count_NAME_EDUCATION_TYPE.png)
-    ![Education Default Rate](./output/default_rate_NAME_EDUCATION_TYPE.png)
+    ![Education Count](../output/count_NAME_EDUCATION_TYPE.png)
+    ![Education Default Rate](../output/default_rate_NAME_EDUCATION_TYPE.png)
 - **Financials**:
     - **Credit Amount**: Distribution is right-skewed. Most loans are for smaller amounts, but there is a long tail of high-value loans.
     - **Income**: Highly skewed. Most applicants have low to medium income.
    
-    ![Credit Distribution](./output/dist_AMT_CREDIT.png)
-    ![Annuity Distribution](./output/dist_AMT_ANNUITY.png)
+    ![Credit Distribution](../output/dist_AMT_CREDIT.png)
+    ![Annuity Distribution](../output/dist_AMT_ANNUITY.png)
 
 
 ### **Initial Observations Summary**
 The data holds strong potential for predictive modeling but requires significant cleaning. The class imbalance is a major factor to consider. Key risk drivers appear to be education level, gender, and potentially the type of loan contract. The `EXT_SOURCE` variables (external credit scores) are likely to be strong predictors and should be prioritized despite missing values.
 
----
+
 
 # **Feature Engineering**
 
@@ -137,12 +137,12 @@ The dataset was exported as `final_dataset.csv` in `data/final_dataset/` for dir
 
 This engineered dataset provides a clean, compact, and domain-aligned foundation for identifying risk patterns, segmenting borrower profiles, and constructing the required interactive risk dashboard.
 
----
+
 
 # **Deep Analysis, Feature Validation & Risk Attribution**
 This document presents a **highly detailed, deep exploratory and validation analysis** performed on the finalized dataset. The purpose is intentionally not model optimization, but **deep explainability and risk understanding** — clearly articulating *why* applicants default, *which financial, behavioral, and demographic signals matter most*, *how these signals interact*, and *how each analytical finding directly translates into actionable credit policy and business decisions*.
 
----
+
 
 ## **1. Final Dataset Overview**
 **Dataset Location**
@@ -161,7 +161,7 @@ data/final_dataset/final_dataset.csv
 **Why this matters**
 All downstream analysis, modeling, and dashboards rely on this dataset as the *single source of truth*. Ensuring clarity at this stage prevents data leakage and misinterpretation later.
 
----
+
 
 ## **2. Feature Landscape & Grouping**
 To improve interpretability and avoid analytical bias, features are logically grouped before analysis.
@@ -180,7 +180,7 @@ Examples include:
 * Outlier behavior
 * Relationship with default probability
 
----
+
 
 ### **2.2 Categorical Features**
 Categorical features capture **structural and demographic context**.
@@ -195,11 +195,11 @@ Examples include:
 * Category-level default concentration
 * Statistical dependency with TARGET
 
----
+
 
 ## **3. Data Quality & Target Structure**
 ### **3.1 Target Distribution**
-![Target Distribution](./output/target_distribution.png)
+![Target Distribution](../output/target_distribution.png)
 
 **What this plot shows**:
 * A strong class imbalance with defaults forming a small minority
@@ -209,14 +209,14 @@ Examples include:
 * Requires stratified sampling, ROC-AUC, and class weighting
 * Reflects real-world credit portfolios
 
----
+
 
 ## **4. Univariate Analysis: Understanding Individual Signals**
 Univariate analysis focuses on **isolating each feature independently** to understand its natural distribution, stability, and inherent risk signal *before* considering interactions. This step is critical in credit risk because misleading distributions or extreme skewness can silently distort downstream models if not properly understood.
 
 Univariate analysis helps answer: *What does a typical applicant look like?*
 
----
+
 
 ### **4.1 Numerical Feature Distributions**
 Each numerical feature is analyzed using **two complementary visualizations** to capture both central tendency and extreme behavior:
@@ -239,10 +239,10 @@ Plots saved as:
 {feature}_boxplot.png
 ```
 
----
+
 
 ### **4.2 Categorical Feature Distributions**
-![Categorical Distribution Example](./charts/Analysis/CODE_GENDER_Countplot.png)
+![Categorical Distribution Example](../charts/Analysis/CODE_GENDER_Countplot.png)
 
 **What this plot shows**:
 * Relative frequency of each category
@@ -254,17 +254,17 @@ Plots saved as:
 **Business Relevance**:
 Volume ≠ Risk. Credit decisions must consider both.
 
----
+
 
 ## **5. Bivariate Analysis: Features vs Default**
 This section explains *how each feature behaves differently for defaulters vs non-defaulters*.
 
----
+
 
 ### **5.1 Numerical Features vs TARGET**
 This analysis compares how numerical feature values differ **between defaulters and non-defaulters**, helping determine whether a variable merely describes customers or truly differentiates risk outcomes.
 
-![Age vs Target](./charts/Analysis/countplot_AGE_AT_LOAN_vs_target.png)
+![Age vs Target](../charts/Analysis/countplot_AGE_AT_LOAN_vs_target.png)
 
 **What this plot shows**:
 * Distribution of borrower age across default outcomes
@@ -276,10 +276,10 @@ This analysis compares how numerical feature values differ **between defaulters 
 **Business Interpretation**:
 Age acts as a proxy for income stability and credit maturity.
 
----
+
 
 ### **5.2 Categorical Features vs TARGET**
-![Education vs Target](./charts/Analysis/countplot_EDU_SIMPLIFIED_vs_target.png)
+![Education vs Target](../charts/Analysis/countplot_EDU_SIMPLIFIED_vs_target.png)
 
 **What this plot shows**:
 * Default proportion within each education category
@@ -291,13 +291,13 @@ Age acts as a proxy for income stability and credit maturity.
 **Business Interpretation**:
 Education level indirectly reflects earning stability and employment quality.
 
----
+
 
 ## **6. Correlation Analysis**
 ### **6.1 Full Correlation Heatmap**
 Correlation analysis is used here **strictly as a diagnostic tool**, not as a feature selection mechanism. In credit risk, strong linear correlations are rare; therefore, weak correlations do not imply irrelevance.
 
-![Correlation Heatmap](./charts/Analysis/Correlation%20Heatmap.png)
+![Correlation Heatmap](../charts/Analysis/Correlation%20Heatmap.png)
 
 **What this shows**:
 * Linear relationships between all numerical variables
@@ -306,7 +306,7 @@ Correlation analysis is used here **strictly as a diagnostic tool**, not as a fe
 * Weak linear correlations are expected in credit risk
 * Risk is driven by **non-linear interactions**
 
----
+
 
 ### **6.2 Correlation with TARGET**
 **Risk-Increasing Signals**:
@@ -318,19 +318,19 @@ Correlation analysis is used here **strictly as a diagnostic tool**, not as a fe
 * External credit scores
 * Income-normalized ratios
 
----
+
 
 ### **6.3 Focused Correlation Heatmap**
-![Focused Correlation Heatmap](./charts/Analysis/Correlation%20Heatmap\(Heatmap%20of%20features%20strongly%20related%20to%20TARGET\).png)
+![Focused Correlation Heatmap](../charts/Analysis/Correlation%20Heatmap\(Heatmap%20of%20features%20strongly%20related%20to%20TARGET\).png)
 
 **Insight**:
 Only a limited subset shows linear signal — engineered features matter most.
 
----
+
 
 ## **7. Multivariate Analysis**
 ### **7.1 Average Default Rate by Category**
-![Default Rate by Education](./charts/Analysis/Average_Default_Rate_by_EDU_SIMPLIFIED.png)
+![Default Rate by Education](../charts/Analysis/Average_Default_Rate_by_EDU_SIMPLIFIED.png)
 
 **What this shows**:
 * Risk varies significantly within categories
@@ -338,20 +338,20 @@ Only a limited subset shows linear signal — engineered features matter most.
 **Why it matters**:
 * Supports segmentation-based policy rules
 
----
+
 
 ### **7.2 Numerical Binning & Risk Trend**
-![Default_Rate_by_Quintile_of_AGE_AT_LOAN](./charts/Analysis/Default_Rate_by_Quintile_of_AGE_AT_LOAN.png)
-![Default_Rate_by_Quintile_of_AMT_ANNUITY](./charts/Analysis/Default_Rate_by_Quintile_of_AMT_ANNUITY.png)
+![Default_Rate_by_Quintile_of_AGE_AT_LOAN](../charts/Analysis/Default_Rate_by_Quintile_of_AGE_AT_LOAN.png)
+![Default_Rate_by_Quintile_of_AMT_ANNUITY](../charts/Analysis/Default_Rate_by_Quintile_of_AMT_ANNUITY.png)
 
 **Insight**:
 * Clear monotonic increase in default
 * Validates ratio-based feature engineering
 
----
+
 
 ### **7.3 Interaction Analysis**
-![Age Distribution by Gender and TARGET](./charts/Analysis/Age_Distribution_by_Gender_and_TARGET.png)
+![Age Distribution by Gender and TARGET](../charts/Analysis/Age_Distribution_by_Gender_and_TARGET.png)
 
 **What this reveals**:
 * Gender alone is weak
@@ -360,7 +360,7 @@ Only a limited subset shows linear signal — engineered features matter most.
 **Modeling Implication**:
 Supports interaction-aware models.
 
----
+
 
 ## **8. Outlier Analysis (IQR Method)**
 **Approach**:
@@ -374,12 +374,12 @@ Supports interaction-aware models.
 **Action**:
 Outliers retained but handled via robust modeling.
 
----
+
 
 ## **9. Feature Importance Validation (Random Forest)**
 This section validates all exploratory findings using a **tree-based, non-linear ensemble model**, ensuring that insights derived from EDA are not purely visual but hold predictive value in a supervised learning context.
 
-![Top 20 Feature Importances](./charts/Analysis/Top%2020%20Most%20Important%20Features.png)
+![Top 20 Feature Importances](../charts/Analysis/Top%2020%20Most%20Important%20Features.png)
 
 **Purpose**:
 * Validate EDA insights using a non-linear model
@@ -397,7 +397,7 @@ This section validates all exploratory findings using a **tree-based, non-linear
 **Interpretation**:
 Strong discrimination for baseline risk validation.
 
----
+
 
 ## **10. Risk Scoring & BI Readiness**
 Each application enriched with:
@@ -412,14 +412,14 @@ data/final_dataset/FINAL_DATASET_FOR_WITH_RISK_SCORE.csv
 **Business Value**:
 * Plug-and-play Power BI integration
 * Enables thresholding, segmentation, and monitoring
----
+
 
 ## **Power BI Dashboard**
 
 ### **1. Overview Page**
 The **Overview Page** serves as the executive summary for the credit risk analysis, providing a high-level snapshot of the loan portfolio's health, applicant demographics, and key risk indicators. It is designed to allow stakeholders to quickly gauge the magnitude of applications, identify the volume of "at-risk" loans, and filter data by key demographics.
 
-Overview Dashboard ![Overview Dashboard](./PowerBi_dashboard/overview.jpg)
+Overview Dashboard ![Overview Dashboard](../PowerBi_dashboard/overview.jpg)
 #### **Key Performance Indicators (KPIs)**
 The top section highlights critical aggregate metrics:
 * **Total Applications:** **307.51K** total loan requests processed.
@@ -452,11 +452,11 @@ The dashboard empowers users to slice the data dynamically using:
     * *Chart:* "Total Annuity Amount from different Genders"
     * *Insight:* **Females** account for the majority of the total annuity amount (**59.53%** or 4.96bn), compared to **Males** (**32.58%** or 2.72bn). This aligns with the observation that females apply for loans more frequently than males.
 
----
+
 ### **2. Previous Applications Distribution Dashboard**
 This dashboard page shifts focus from the current applicant profile to their **historical banking behavior**. By analyzing the 1.4 million previous application records, this view helps the credit team understand the relationship between a customer's past loyalty (frequency of borrowing) and their current risk profile.
 
-![Previous Applications Distribution Dashboard](./PowerBi_dashboard/previous_applciations_overview.jpg)
+![Previous Applications Distribution Dashboard](../PowerBi_dashboard/previous_applciations_overview.jpg)
 
 #### **Historical Volume & Operational Metrics (KPIs)**
 The top header provides a summary of the operational scale and historical credit funnel:
@@ -485,11 +485,11 @@ This page allows for deep-diving into specific risk cohorts using:
 * **Approval Frequency Slider:** Filter for customers with a specific range of past approvals (e.g., 0 to 27).
 * **Demographics:** Filters for **Gender** and **Age** allow for segmentation of historical trends.
 
----
+
 ### **3. Current Applications Distribution Dashboard**
 This dashboard page focuses on the **sociodemographic profile** of the current applicant pool. Unlike the risk-centric views, this page is descriptive, helping the business understand *who* is applying for loans. It analyzes the distribution of applicants across gender, family status, asset ownership, and employment sectors.
 
-![ Current Applications Distribution Dashboard](./PowerBi_dashboard/curr_application_distribution.jpg)
+![ Current Applications Distribution Dashboard](../PowerBi_dashboard/curr_application_distribution.jpg)
 
 #### **Key Portfolio Volume**
 * **Total Applications:** **307.51K** unique applications are profiled here.
@@ -510,11 +510,11 @@ These visualizations highlight the gender imbalance and asset liquidity of the p
 * **Annuity by Occupation:** This bar chart reveals financial capacity by job type. **Managers** and **Accountants** carry the highest average annuity amounts (indicating larger loans and higher repayment capacity), while **Low-skill Laborers** and **Cleaning Staff** have the lowest average annuities.
 
 
----
+
 ### **4. Risk Drivers & Sensitivity Analysis Dashboard**
 This dashboard page offers a granular "deep dive" into the current loan application pool. Unlike the high-level Overview, this view is designed for **sensitivity analysis**, allowing analysts to adjust specific financial levers (like annuity values or job tenure) to see how they impact risk profiles.
 
-![Risk Drivers & Sensitivity Analysis Dashboard](./PowerBi_dashboard/RisK_Drivers_Sensitivity_Analysis_Dashboard.jpg)
+![Risk Drivers & Sensitivity Analysis Dashboard](../PowerBi_dashboard/RisK_Drivers_Sensitivity_Analysis_Dashboard.jpg)
 
 #### **Key Financial Ratios & KPIs**
 The top section reiterates core portfolio metrics with a specific focus on collateral and affordability ratios:
@@ -543,7 +543,7 @@ This page features the most extensive set of filters, enabling "What-If" analysi
         * **Highest Risk:** The risk peaks at **10.4%** for the lowest income bracket (near 0–20K).
         * **Lowest Risk:** As income rises to 200K, the risk drops significantly to **6.8%**.
         * **Volatility:** The curve is not perfectly smooth; there is a notable "bump" in risk around the **150K** income mark (**8.2%**), suggesting that higher income does not always guarantee lower risk—perhaps due to higher leverage in that segment.
----
+
 
 # **Conclusion**
 
@@ -612,7 +612,7 @@ mkdir processed
 cd processed
 mkdir Feature-Engineered
 mkdir initially_cleaned_dataset
-cd ../..
+cd .../..
 ```
 
 This will result in the following structure under `data/`:
